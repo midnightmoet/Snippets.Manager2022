@@ -1,0 +1,5 @@
+# folders that can be recreated from the command line
+/node_modules
+
+# Passwords and links that are secured in the repo
+.env
