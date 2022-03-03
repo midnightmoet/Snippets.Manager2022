@@ -32,12 +32,12 @@ router.post("/", async (req, res) => {
   });
   
   // await the promise to be resolved
-  const savedSnippets = await newSnippet.save();
+  const savedSnippet = await newSnippet.save();
 
-  res.json(savedSnippets);
+  res.json(savedSnippet);
   }catch(err){
     // status code 500 means generic internal server error
-    res.status(500).send();
+    res.status(500).send("this is broken");
   }
 });
 
@@ -55,11 +55,16 @@ router.put("/:id", async (req,res) => {
     }
 
     if(!snippetId) 
-      return res.status(400).json({errorMessage: "You need to provide a snippet id"});
+      return res.status(400).json({
+        errorMessage: "You need to provide a snippet id"
+      });
     
     const originalSnippet = await Snippet.findById(snippetId);
     if (!originalSnippet)
-      return res.status(400).json({errorMessage: "Snippet not found"});
+      return res.status(400).json({
+        errorMessage: "Snippet not found"
+      });
+
     
     // update the existing snippet with the new data
     originalSnippet.title = title;
