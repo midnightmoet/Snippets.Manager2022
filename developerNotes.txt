@@ -1,0 +1,6 @@
+Errors needing attention: the following errors are found in the log file:
+1) The post snippets throws a 500 error that needs to be corrected 
+
+
+2) In the React component the course calls for <Switch></Switch> but it is not a valid React component. Instead using <Routes></Routes>
+AND the traditional <Route exact path="/">Homepage</Route> is now <Route exact path="/" element={Homepage} />
