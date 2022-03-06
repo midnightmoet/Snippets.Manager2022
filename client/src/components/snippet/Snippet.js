@@ -1,5 +1,6 @@
 import React from "react";
 import Axios from "axios";
+import "./Snippet.scss";
 
 // destructure props into snippet, then no need for the excess addition of props on everything lol.
 export default function Snippets({ snippet, getSnippets, editSnippet }) {
@@ -14,15 +15,15 @@ export default function Snippets({ snippet, getSnippets, editSnippet }) {
 
 	return (
 		<div className="snippet">
-			{snippet.title && <h2>{snippet.title}</h2>}
-			{snippet.description && <p>{snippet.description}</p>}
+			{snippet.title && <h2 className="title">{snippet.title}</h2>}
+			{snippet.description && <p className="description">{snippet.description}</p>}
 			{snippet.code && (
-				<pre>
+				<pre className="code">
 					<code>{snippet.code}</code>
 				</pre>
 			)}
-			<button onClick={() => editSnippet(snippet)}>Edit</button>
-			<button onClick={deleteSnippet}>Delete</button>
+			<button className="btn-edit" onClick={() => editSnippet(snippet)}>Edit</button>
+			<button className="btn-delete" onClick={deleteSnippet}>Delete</button>
 		</div>
 	);
 }

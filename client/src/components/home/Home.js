@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import Snippets from "../snippet/Snippet";
 import SnippetEditor from "./SnippetEditor";
+import "./Home.scss";
 
 export default function Home() {
 	const [snippets, setSnippets] = useState([]); //unable to call map on undefined so use an empty array
@@ -46,7 +47,10 @@ export default function Home() {
 	return (
 		<div className="home">
 			{!snippetEditorOpen && (
-				<button onClick={() => setSnippetEditorOpen(true)}>
+				<button
+					className="btn-editor-toggle"
+					onClick={() => setSnippetEditorOpen(true)}
+				>
 					Add snippet
 				</button>
 			)}
