@@ -23,8 +23,9 @@ app.listen(5000, () => {
 });
 
 // Set up routers
-// app.use adds middleware to the express server
 app.use("/snippets", require("./routers/snippetRouter"));
+app.use("/auth", require("./routers/userRouter"));
+
 
 // connect to mongodb
 mongoose.connect(
