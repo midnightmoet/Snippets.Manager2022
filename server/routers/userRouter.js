@@ -38,8 +38,24 @@ router.post("/", async (req, res) => {
 		
 
 		// hash the password, for this you npm i bcryptjs in the terminal
+		// Before hashing a password, we apply a salt. A salt is a random string that makes the hash unpredictable. Bcrypt is a popular and trusted method for salt and hashing passwords. You have learned how to use bcrypt's NodeJS library to salt and hash a password before storing it in a database.
 		
+        const salt = await bcrypt.genSalt(10);
+        const passwordHash = await bcrypt.hash(password, salt);
 
+		// save the user in the database
+
+		// create a new object.  if the key and value are the same, you can just write the key
+		const newUser = new User({
+			email,
+			passwordHash,
+		});
+
+		const savedUser = await newUser.save();
+
+		res.send(savedUser);
+
+		// create a JWT token 
 
 
 	} catch (err) {
