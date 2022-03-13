@@ -1,5 +1,9 @@
 Errors needing attention: the following errors are found in the log file:
+<<<<<<< HEAD
+1) The post snippets throws a 500 error that needs to be corrected also corrected the snippet Schema to remove required: true from the title, description and code.
+=======
 1) The post snippets throws a 500 error that needs to be corrected.  LOL correction was literally 3 letters (set) because it was a set missing.
+>>>>>>> master
 
 
 2) In the React component the course calls for <Switch></Switch> but it is not a valid React component. Instead using <Routes></Routes>

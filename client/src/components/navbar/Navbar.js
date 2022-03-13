@@ -9,7 +9,7 @@ export default function Navbar() {
             <h1>Snippet manager</h1>
         </Link>
         <Link to="/login">Log in</Link>
-        <Link to="/signup">Signup</Link>
+        <Link to="/register">Register</Link>
     </div>      
   );
 }
