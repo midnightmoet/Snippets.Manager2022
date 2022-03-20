@@ -70,6 +70,54 @@ router.post("/", async (req, res) => {
 	}
 });
 
+router.post("/login", async (req, res) => {
+	try {
+		const { email, password } = req.body;
+
+		// validation
+		// if missing required fields
+		if (!email || !password )
+			return res.status(400).json({
+				errorMessage: "Missing required fields",
+			});
+
+		// get user account 
+		const existingUser = await User.findOne({ email });
+		if (!existingUser)
+			return res.status(401).json({
+				errorMessage: "Wrong email.",
+			});
+		
+		// check the password
+		const correctPassword = await bcrypt.compare(
+			password, 
+			existingUser.passwordHash
+		);
+
+		if (!correctPassword)
+		return res.status(401).json({
+			errorMessage: "Wrong password.",
+		});
+
+		// create a JWT token
+		// JWT is a JSON Web Token. It is a standard for representing claims to be transferred between parties in a secure way.
+
+		// sign the token with a secret key
+		const token = jwt.sign(
+			{
+				id: existingUser._id,
+			},
+			process.env.JWT_SECRET
+		);
+
+		// send the token as a cookie, the httpOnly: true option prevents the token from being read by client-side javascript
+		res.cookie("token", token, { httpOnly: true }).send();
+		
+	} catch (err) {
+		res.status(500).send(err);
+	}
+})
+
 module.exports = router;
 
 // destructuring the express and router made the application function more readable.  It also made it easier to test the application.  And when combined it wouldn't work properly.

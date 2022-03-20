@@ -5,7 +5,7 @@ function auth(req, res, next){
         const token = req.cookies.token;
         if(!token) return res.status(401).json({errorMessage: "Unauthorized"});
 
-        const validatedUser = jwt.verify(process.env.JWT_SECRET);
+        const validatedUser = jwt.verify(token, process.env.JWT_SECRET);
         req.user = validatedUser.id;
 
         next();
