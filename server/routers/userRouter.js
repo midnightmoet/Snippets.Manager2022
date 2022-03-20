@@ -64,7 +64,6 @@ router.post("/", async (req, res) => {
 
 		// send the token as a cookie, the httpOnly: true option prevents the token from being read by client-side javascript
 		res.cookie("token", token, { httpOnly: true }).send();
-		
 	} catch (err) {
 		res.status(500).send(err);
 	}
@@ -76,28 +75,28 @@ router.post("/login", async (req, res) => {
 
 		// validation
 		// if missing required fields
-		if (!email || !password )
+		if (!email || !password)
 			return res.status(400).json({
 				errorMessage: "Missing required fields",
 			});
 
-		// get user account 
+		// get user account
 		const existingUser = await User.findOne({ email });
 		if (!existingUser)
 			return res.status(401).json({
 				errorMessage: "Wrong email.",
 			});
-		
+
 		// check the password
 		const correctPassword = await bcrypt.compare(
-			password, 
+			password,
 			existingUser.passwordHash
 		);
 
 		if (!correctPassword)
-		return res.status(401).json({
-			errorMessage: "Wrong password.",
-		});
+			return res.status(401).json({
+				errorMessage: "Wrong password.",
+			});
 
 		// create a JWT token
 		// JWT is a JSON Web Token. It is a standard for representing claims to be transferred between parties in a secure way.
@@ -112,11 +111,10 @@ router.post("/login", async (req, res) => {
 
 		// send the token as a cookie, the httpOnly: true option prevents the token from being read by client-side javascript
 		res.cookie("token", token, { httpOnly: true }).send();
-		
 	} catch (err) {
 		res.status(500).send(err);
 	}
-})
+});
 
 module.exports = router;
 
