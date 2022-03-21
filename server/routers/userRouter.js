@@ -116,6 +116,20 @@ router.post("/login", async (req, res) => {
 	}
 });
 
+router.get("/loggedIn", (req, res) => {
+	try {
+        const token = req.cookies.token;
+        if(!token) return res.json(null);
+
+        const validatedUser = jwt.verify(token, process.env.JWT_SECRET);
+
+		res.json(validatedUser.id);
+    } catch (error){
+        return res.json(null);
+    }
+
+});
+
 module.exports = router;
 
 // destructuring the express and router made the application function more readable.  It also made it easier to test the application.  And when combined it wouldn't work properly.
