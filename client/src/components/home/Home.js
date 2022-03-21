@@ -71,7 +71,7 @@ export default function Home() {
 			{snippets.length > 0 ? (
 				renderSnippets()
 			) : user && ( 
-				<p className="no-snippets-msg">No snippets yet have been created yet.</p>
+				<p className="no-snippets-msg">No snippets have been created yet.</p>
 			)}
 
 			{user === null  && (
