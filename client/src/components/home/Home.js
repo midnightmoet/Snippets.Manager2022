@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Axios from "axios";
 import Snippets from "../snippet/Snippet";
 import SnippetEditor from "./SnippetEditor";
 import "./Home.scss";
+import UserContext from "../../context/UserContext";
 
 export default function Home() {
 	const [snippets, setSnippets] = useState([]); //unable to call map on undefined so use an empty array
 	const [snippetEditorOpen, setSnippetEditorOpen] = useState(false);
 	const [editSnippetData, setEditSnippetData] = useState(null);
+
+	const user = useContext(UserContext);
 
 	useEffect(() => {
 		// get snippets from the server
@@ -46,7 +49,7 @@ export default function Home() {
 
 	return (
 		<div className="home">
-			{!snippetEditorOpen && (
+			{!snippetEditorOpen && user && (
 				<button
 					className="btn-editor-toggle"
 					onClick={() => setSnippetEditorOpen(true)}
