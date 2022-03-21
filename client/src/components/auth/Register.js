@@ -1,12 +1,17 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Axios from "axios";
+import UserContext from "../../context/UserContext";
 import "./AuthForm.scss";
 
 export default function Register() {
 	const [formEmail, setFormEmail] = useState("");
 	const [formPassword, setFormPassword] = useState("");
 	const [formPasswordVerify, setFormPasswordVerify] = useState("");
+
+	const {getUser} = useContext(UserContext);
+
+	const navigate = useNavigate();
 
 	async function register(e) {
 		e.preventDefault();
@@ -18,6 +23,10 @@ export default function Register() {
 		};
 
 		await Axios.post("http://localhost:5000/auth/", registerData);
+
+		await getUser();
+		navigate("/");
+		// "useNavigate()" of React Router Version 6 doesn't have "push()" different from "useHistory()" of React Router Version 5.
 	}
 
 	return (

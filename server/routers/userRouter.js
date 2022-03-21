@@ -130,6 +130,14 @@ router.get("/loggedIn", (req, res) => {
 
 });
 
+router.get("/logout", (req, res) => {
+	try {
+		res.clearCookie("token").send();
+	} catch (err) {
+		return res.json(null);
+	}
+} );
+
 module.exports = router;
 
 // destructuring the express and router made the application function more readable.  It also made it easier to test the application.  And when combined it wouldn't work properly.
