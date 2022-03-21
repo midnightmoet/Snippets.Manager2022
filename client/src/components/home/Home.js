@@ -1,21 +1,25 @@
 import React, { useContext, useEffect, useState } from "react";
 import Axios from "axios";
-import Snippets from "../snippet/Snippet";
+import Snippets from "./Snippet";
 import SnippetEditor from "./SnippetEditor";
 import "./Home.scss";
 import UserContext from "../../context/UserContext";
+import { Link } from "react-router-dom";
 
 export default function Home() {
 	const [snippets, setSnippets] = useState([]); //unable to call map on undefined so use an empty array
 	const [snippetEditorOpen, setSnippetEditorOpen] = useState(false);
 	const [editSnippetData, setEditSnippetData] = useState(null);
 
-	const user = useContext(UserContext);
+	const{ user } = useContext(UserContext);
 
+	
 	useEffect(() => {
+		// if statement returns if there isn't a user logged in & also shows no snippets
+		if(!user) setSnippets([]);
 		// get snippets from the server
-		getSnippets();
-	}, []);
+		else getSnippets();
+	}, [user]);
 
 	async function getSnippets() {
 		const snippetsRes = await Axios.get("http://localhost:5000/snippets/");
@@ -64,7 +68,18 @@ export default function Home() {
 					editSnippetData={editSnippetData}
 				/>
 			)}
-			{renderSnippets()}
+			{snippets.length > 0 ? (
+				renderSnippets()
+			) : user && ( 
+				<p className="no-snippets-msg">No snippets yet have been created yet.</p>
+			)}
+
+			{user === null  && (
+				<div className="no-user-message">
+					<h2>Welcome to Snippet Manager</h2>
+					<Link to="/register">Register here</Link>
+				</div>
+			)}
 		</div>
 	);
 }

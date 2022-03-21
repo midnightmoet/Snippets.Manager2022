@@ -6,12 +6,13 @@ import "./Snippet.scss";
 export default function Snippets({ snippet, getSnippets, editSnippet }) {
 
 	async function deleteSnippet(){
-		await Axios.delete(`http://localhost:5000/snippets/${snippet._id}`);
+		if(window.confirm("Do you want to delete this snippet?")){
+			await Axios.delete(`http://localhost:5000/snippets/${snippet._id}`);
 
-		getSnippets();
+			getSnippets();
+		}
+
 	}
-
-
 
 	return (
 		<div className="snippet">
