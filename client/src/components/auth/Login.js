@@ -7,6 +7,7 @@ import "./AuthForm.scss";
 export default function Login() {
 	const [formEmail, setFormEmail] = useState("");
 	const [formPassword, setFormPassword] = useState("");
+	const [errorMessage, setErrorMessage] = useState(null);
 
 	const { getUser } = useContext(UserContext);
 
@@ -21,7 +22,16 @@ export default function Login() {
 			password: formPassword,
 		};
 
-		await Axios.post("http://localhost:5000/auth/login", loginData);
+		try {
+			await Axios.post("http://localhost:5000/auth/login", loginData);
+		} catch (err) {
+			if(err.response){
+				if(err.response.data.errorMessage){
+					setErrorMessage(err.response.data.errorMessage);
+				}
+			}
+			return;
+		}
 
 		await getUser();
 		navigate("/");
