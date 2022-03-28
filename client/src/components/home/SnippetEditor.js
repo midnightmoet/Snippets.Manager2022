@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
+import ErrorMessage from "../navbar/ErrorMessage";
 import "./SnippetEditor.scss";
 
 export default function SnippetEditor({
@@ -10,6 +11,7 @@ export default function SnippetEditor({
 	const [editorTitle, setEditorTitle] = useState("");
 	const [editorDesc, setEditorDesc] = useState("");
 	const [editorCode, setEditorCode] = useState("");
+	const [errorMessage, setErrorMessage] = useState(null);
 
 	useEffect(() => {
 		if (editSnippetData) {
@@ -30,13 +32,23 @@ export default function SnippetEditor({
 			description: editorDesc ? editorDesc : undefined,
 			code: editorCode ? editorCode : undefined,
 		};
-		if (!editSnippetData)
+
+		try{
+			if (!editSnippetData)
 			await Axios.post("http://localhost:5000/snippets/", snippetData);
-		else
+			else
 			await Axios.put(
 				`http://localhost:5000/snippets/${editSnippetData._id}`,
 				snippetData
 			);
+		} catch (err) {
+			if(err.response) {
+				if(err.response.data.errorMessage) {
+					setErrorMessage(err.response.data.errorMessage);
+				}
+			}
+		}
+
 		getSnippets();
 		closeEditor();
 	}
@@ -51,6 +63,12 @@ export default function SnippetEditor({
 
 	return (
 		<div className="snippet-editor">
+			{errorMessage && (
+				<ErrorMessage 
+					message={errorMessage}
+					clear={() => setErrorMessage(null)}
+				/>
+			)}
 			<form className="form" onSubmit={saveSnippet}>
 				<label htmlFor="editor-title">Title</label>
 				<input

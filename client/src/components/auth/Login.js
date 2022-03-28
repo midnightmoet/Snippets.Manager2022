@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../../context/UserContext";
+import ErrorMessage from "../navbar/ErrorMessage";
 import Axios from "axios";
 import "./AuthForm.scss";
 
@@ -25,8 +26,8 @@ export default function Login() {
 		try {
 			await Axios.post("http://localhost:5000/auth/login", loginData);
 		} catch (err) {
-			if(err.response){
-				if(err.response.data.errorMessage){
+			if (err.response) {
+				if (err.response.data.errorMessage) {
 					setErrorMessage(err.response.data.errorMessage);
 				}
 			}
@@ -41,6 +42,12 @@ export default function Login() {
 	return (
 		<div className="auth-form">
 			<h2>Login</h2>
+			{errorMessage && (
+				<ErrorMessage
+					message={errorMessage}
+					clear={() => setErrorMessage(null)}
+				/>
+			)}
 			<form className="form" onSubmit={login}>
 				<label htmlFor="form-email">Email</label>
 				<input
