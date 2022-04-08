@@ -16,3 +16,9 @@ npm install
 npm start
 
 ```
+
+```terminal
+git init 
+do this in the main folder and the client folder
+
+```
